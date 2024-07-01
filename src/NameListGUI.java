@@ -6,8 +6,15 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * NameListGUI is a GUI for managing a list of names, allowing users to add, delete, save to file, and view saved names.
+ *
+ * @author Emma Lee, Chris Helmhold
+ * @version 2024
+ */
 public class NameListGUI extends JFrame
 {
+    // Constants
     private static final int INVALID_VALUE = -1;
     private static final int EXIT_STATUS = 0;
     private static final int TEXT_FIELD_COLUMNS = 20;
@@ -27,12 +34,16 @@ public class NameListGUI extends JFrame
     private static final String SAVE_ERROR_MESSAGE = "Error saving names to file.";
     private static final String SAVE_FILE_NAME = "names.txt";
 
+    // GUI Components
     private DefaultListModel<String> listModel;
     private JList<String> nameList;
     private JTextField nameField;
     private JMenuItem deleteMenuItem, saveNamesMenuItem, exitMenuItem;
     private JLabel statusLabel;
 
+    /**
+     * Constructs a new NameListGUI with initialized GUI components.
+     */
     public NameListGUI()
     {
         super(WINDOW_TITLE);
@@ -92,11 +103,9 @@ public class NameListGUI extends JFrame
             @Override
             public void valueChanged(final ListSelectionEvent e)
             {
-                if (!e.getValueIsAdjusting())
-                {
+                if (!e.getValueIsAdjusting()) {
                     String selectedName = nameList.getSelectedValue();
-                    if (selectedName != null)
-                    {
+                    if (selectedName != null) {
                         showCapitalizedPopup(selectedName);
                     }
                 }
@@ -127,6 +136,9 @@ public class NameListGUI extends JFrame
         setVisible(true);
     }
 
+    /**
+     * Adds a new name to the list when the "OK" button is clicked.
+     */
     private void addName()
     {
         String newName = nameField.getText().trim();
@@ -139,12 +151,18 @@ public class NameListGUI extends JFrame
         }
     }
 
+    /**
+     * Clears the name input field and status message when the "Cancel" button is clicked.
+     */
     private void clearNameField()
     {
         nameField.setText("");
         statusLabel.setText(""); // Clear status message
     }
 
+    /**
+     * Deletes the selected name from the list when the "Delete Selected Name" menu item is clicked.
+     */
     private void deleteSelectedName()
     {
         int selectedIndex = nameList.getSelectedIndex();
@@ -156,6 +174,9 @@ public class NameListGUI extends JFrame
         }
     }
 
+    /**
+     * Saves the current list of names to a file named "names.txt".
+     */
     private void saveToFile()
     {
         try (PrintWriter writer = new PrintWriter(SAVE_FILE_NAME))
@@ -174,6 +195,9 @@ public class NameListGUI extends JFrame
         }
     }
 
+    /**
+     * Displays a new window showing the list of saved names when the "Save Names" menu item is clicked.
+     */
     private void showSavedNames()
     {
         JFrame savedNamesFrame = new JFrame("Saved Names");
@@ -209,12 +233,22 @@ public class NameListGUI extends JFrame
         savedNamesFrame.setVisible(true);
     }
 
+    /**
+     * Shows a popup message with the selected name in uppercase.
+     *
+     * @param name The name to display in uppercase.
+     */
     private void showCapitalizedPopup(final String name)
     {
         String capitalized = name.toUpperCase();
         JOptionPane.showMessageDialog(this, capitalized, "Selected Name", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Main method to launch the application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(final String[] args)
     {
         SwingUtilities.invokeLater(NameListGUI::new);
